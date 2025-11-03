@@ -18,9 +18,9 @@ RUN cd /home/frappe/frappe-bench && \
     . env/bin/activate && \
     pip install -e apps/jalali_shamsi_datepicker
 
-# Build کردن assets
+# فقط rebuild کردن assets برای frappe و erpnext با اپلیکیشن جدید
 RUN cd /home/frappe/frappe-bench && \
-    bench build --app jalali_shamsi_datepicker
+    bench build
 
 WORKDIR /home/frappe/frappe-bench
 #docker compose -f docker-compose-jalali.yml build --no-cache
