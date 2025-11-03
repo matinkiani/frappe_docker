@@ -1,0 +1,17 @@
+[build-system]
+requires = ["flit_core >=3.4,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "jalali_shamsi_datepicker"
+authors = [
+    {name = "Ideenemium", email = "ideenemium@gmail.com"}
+]
+dynamic = ["version"]
+description = "A best solution to change date and datetime fields to Shamsi(Jalali) Calendar."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+
+[tool.bench.dev-dependencies]
+# Frappe will be installed by bench automatically

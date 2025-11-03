@@ -1,29 +1,22 @@
 # استفاده از image پایه ERPNext
 FROM frappe/erpnext:v15.85.1
 
-# تغییر به کاربر root برای نصب
+# تنظیم working directory
+WORKDIR /home/frappe/frappe-bench
+
+# تغییر به کاربر root
 USER root
 
-# نصب git (اگر نصب نیست)
-RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+# کپی کردن اپلیکیشن Jalali از local به apps directory
+COPY --chown=frappe:frappe ./jalali_shamsi_datepicker /home/frappe/frappe-bench/apps/jalali_shamsi_datepicker
 
 # تغییر به کاربر frappe
 USER frappe
 
-# تنظیم working directory
-WORKDIR /home/frappe/frappe-bench
+# اضافه کردن اپلیکیشن به لیست apps
+RUN echo "jalali_shamsi_datepicker" >> /home/frappe/frappe-bench/sites/apps.txt
 
-# کلون کردن اپلیکیشن Jalali Shamsi Datepicker
-RUN bench get-app --branch main https://github.com/nidyasoft/jalali_shamsi_datepicker.git
-
-# بازگشت به root برای تنظیمات نهایی
-USER root
-
-# اجرای دستور build assets
-RUN cd /home/frappe/frappe-bench && \
-    sudo -u frappe bench build --apps jalali_shamsi_datepicker
-
-# بازگشت به کاربر frappe
-USER frappe
+# Build کردن assets برای اپلیکیشن جدید
+RUN bench build --app jalali_shamsi_datepicker
 
 WORKDIR /home/frappe/frappe-bench
