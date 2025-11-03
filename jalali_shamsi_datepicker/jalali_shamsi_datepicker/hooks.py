@@ -18,6 +18,15 @@ app_include_js = [
     "/assets/jalali_shamsi_datepicker/js/persian-date.min.js",
     "/assets/jalali_shamsi_datepicker/js/persian-datepicker.min.js",
     "/assets/jalali_shamsi_datepicker/js/togregorian_date.js",
-    "/assets/jalali_shamsi_datepicker/js/topersian_date.js",
     "/assets/jalali_shamsi_datepicker/js/in_words_cleanup.js"
 ]
+
+# Jinja2 filters for template rendering
+jinja = {
+    "methods": [
+        "jalali_shamsi_datepicker.utils.to_shamsi"
+    ],
+    "filters": {
+        "to_shamsi": "jalali_shamsi_datepicker.utils.to_shamsi"
+    }
+}
