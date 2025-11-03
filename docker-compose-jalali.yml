@@ -6,11 +6,9 @@ services:
       context: .
       dockerfile: custom_erpnext.Dockerfile
     image: custom-erpnext:v15.85.1-jalali
+    restart: unless-stopped
     networks:
       - frappe_network
-    deploy:
-      restart_policy:
-        condition: on-failure
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
@@ -25,11 +23,9 @@ services:
       context: .
       dockerfile: custom_erpnext.Dockerfile
     image: custom-erpnext:v15.85.1-jalali
+    restart: "no"
     networks:
       - frappe_network
-    deploy:
-      restart_policy:
-        condition: none
     entrypoint:
       - bash
       - -c
@@ -57,11 +53,9 @@ services:
       context: .
       dockerfile: custom_erpnext.Dockerfile
     image: custom-erpnext:v15.85.1-jalali
+    restart: "no"
     networks:
       - frappe_network
-    deploy:
-      restart_policy:
-        condition: none
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
@@ -90,15 +84,13 @@ services:
 
   db:
     image: mariadb:10.6
+    restart: unless-stopped
     networks:
       - frappe_network
     healthcheck:
       test: mysqladmin ping -h localhost --password=admin
       interval: 1s
       retries: 20
-    deploy:
-      restart_policy:
-        condition: on-failure
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
@@ -115,13 +107,11 @@ services:
       context: .
       dockerfile: custom_erpnext.Dockerfile
     image: custom-erpnext:v15.85.1-jalali
+    restart: unless-stopped
     networks:
       - frappe_network
     depends_on:
       - websocket
-    deploy:
-      restart_policy:
-        condition: on-failure
     command:
       - nginx-entrypoint.sh
     environment:
@@ -144,11 +134,9 @@ services:
       context: .
       dockerfile: custom_erpnext.Dockerfile
     image: custom-erpnext:v15.85.1-jalali
+    restart: unless-stopped
     networks:
       - frappe_network
-    deploy:
-      restart_policy:
-        condition: on-failure
     command:
       - bench
       - worker
@@ -166,11 +154,9 @@ services:
       context: .
       dockerfile: custom_erpnext.Dockerfile
     image: custom-erpnext:v15.85.1-jalali
+    restart: unless-stopped
     networks:
       - frappe_network
-    deploy:
-      restart_policy:
-        condition: on-failure
     command:
       - bench
       - worker
@@ -185,32 +171,26 @@ services:
 
   redis-queue:
     image: redis:6.2-alpine
+    restart: unless-stopped
     networks:
       - frappe_network
-    deploy:
-      restart_policy:
-        condition: on-failure
     volumes:
       - redis-queue-data:/data
 
   redis-cache:
     image: redis:6.2-alpine
+    restart: unless-stopped
     networks:
       - frappe_network
-    deploy:
-      restart_policy:
-        condition: on-failure
 
   scheduler:
     build:
       context: .
       dockerfile: custom_erpnext.Dockerfile
     image: custom-erpnext:v15.85.1-jalali
+    restart: unless-stopped
     networks:
       - frappe_network
-    deploy:
-      restart_policy:
-        condition: on-failure
     command:
       - bench
       - schedule
@@ -223,11 +203,9 @@ services:
       context: .
       dockerfile: custom_erpnext.Dockerfile
     image: custom-erpnext:v15.85.1-jalali
+    restart: unless-stopped
     networks:
       - frappe_network
-    deploy:
-      restart_policy:
-        condition: on-failure
     command:
       - node
       - /home/frappe/frappe-bench/apps/frappe/socketio.js
